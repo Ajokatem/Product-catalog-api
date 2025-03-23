@@ -1,0 +1,58 @@
+### Test Connection
+GET http://localhost:5000/docs
+Accept: application/json
+
+### Create a Category
+POST http://localhost:5000/categories
+Content-Type: application/json
+
+{
+    "name": "Electronics"
+}
+
+### Get All Categories
+GET http://localhost:5000/categories
+Accept: application/json
+
+### Create a Product
+POST http://localhost:5000/products
+Content-Type: application/json
+
+{
+    "name": "Laptop",
+    "description": "A high-performance laptop",
+    "price": 1200,
+    "category": "Electronics",
+    "stock": 10,
+    "variants": ["Silver", "Black"],
+    "discount": 10
+}
+
+### Get All Products (With Pagination, Sorting, and Filtering)
+GET http://localhost:5000/products?page=1&limit=5&sortBy=price&order=desc
+Accept: application/json
+
+### Get Product by ID (Replace with actual ID)
+GET http://localhost:5000/products/{product_id}
+Accept: application/json
+
+### Update a Product (Replace with actual ID)
+PATCH http://localhost:5000/products/{product_id}
+Content-Type: application/json
+
+{
+    "price": 1100,
+    "stock": 15
+}
+
+### Soft Delete a Product (Replace with actual ID)
+DELETE http://localhost:5000/products/{product_id}
+Accept: application/json
+
+### Get Low Stock Products
+GET http://localhost:5000/products/inventory/low-stock
+Accept: application/json
+
+### Search for a Product
+GET http://localhost:5000/products/search?query=Laptop
+Accept: application/json
