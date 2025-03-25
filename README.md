@@ -17,7 +17,7 @@ Installation
 
 Clone the repository:
 
-git clone https://github.com/your-repo/product-catalog-api.git
+git clone https://github.com/https://github.com/Ajokatem/Product-catalog-api.git
 cd product-catalog-api
 
 Install dependencies:
