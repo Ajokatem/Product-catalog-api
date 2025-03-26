@@ -33,11 +33,11 @@ GET http://localhost:5000/products?page=1&limit=5&sortBy=price&order=desc
 Accept: application/json
 
 ### Get Product by ID 
-GET http://localhost:5000/products/{product_id}
+GET http://localhost:5000/products/15769474863
 Accept: application/json
 
 ### Update a Product 
-PATCH http://localhost:5000/products/{product_id}
+PATCH http://localhost:5000/products/365688395
 Content-Type: application/json
 
 {
@@ -46,7 +46,7 @@ Content-Type: application/json
 }
 
 ### Soft Delete a Product 
-DELETE http://localhost:5000/products/{product_id}
+DELETE http://localhost:5000/products/988453636
 Accept: application/json
 
 ### Get Low Stock Products
