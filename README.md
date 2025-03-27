@@ -1,117 +1,181 @@
-Product Catalog API
+# Product Catalog API
 
-Setup and Installation
+This is a simple product catalog API built with **Node.js**, **Express**, and **Sequelize** (ORM) that connects to a **MySQL** database. The API allows users to manage categories and products, with basic CRUD operations. It supports product creation, updating, deletion, and retrieval, along with category management.
 
-Prerequisites
+## Technologies Used
+- **Node.js** - Server-side JavaScript runtime
+- **Express.js** - Web framework for Node.js
+- **Sequelize** - Promise-based Node.js ORM for MySQL
+- **MySQL** - Relational database
+- **dotenv** - For managing environment variables
 
-Node.js (v14 or later)
+## Prerequisites
 
-MongoDB (local or cloud instance)
+Before you start, ensure you have the following installed:
 
-A .env file with the following variables:
+- **Node.js** (v14 or above)
+- **MySQL** (installed and running)
 
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
 
-Installation
+## Setup
 
-Clone the repository:
+1. **Clone the repository:**
 
-git clone https://github.com/https://github.com/Ajokatem/Product-catalog-api.git
-cd product-catalog-api
-
+   ```bash
+   git clone https://github.com/Ajokatem/product-catalog-api.git
+   cd product-catalog-api
 Install dependencies:
 
-npm install
+Install the required dependencies with npm:
 
+bash
+Copy
+Edit
+npm install
+Create a .env file:
+
+Copy the contents of the .env.example file into a new .env file in the root directory. You will need to update the database credentials.
+
+Example .env:
+
+bash
+Copy
+Edit
+MYSQL_HOST=localhost
+MYSQL_DB=mydatabase
+MYSQL_USER=root
+MYSQL_PASSWORD=password
+PORT=5000
+Create MySQL Database:
+
+Log into MySQL:
+
+bash
+Copy
+Edit
+mysql -u root -p
+Create a new database for the project:
+
+sql
+Copy
+Edit
+CREATE DATABASE mydatabase;
 Start the server:
 
-npm start
+Run the server using the following command:
 
-API Documentation
+bash
+Copy
+Edit
+npm start
+This will start the API server on http://localhost:5000.
 
 Endpoints
-
-Products
-
-GET /products - Retrieve all products with pagination, filtering, and sorting.
-
-POST /products - Create a new product.
-
-GET /products/:id - Retrieve a product by ID.
-
-PATCH /products/:id - Update a product partially.
-
-DELETE /products/:id - Soft delete a product.
-
 Categories
+Create a new category
+POST /categories
+Request body:
 
-GET /categories - Retrieve all categories.
+json
+Copy
+Edit
+{
+  "name": "Electronics"
+}
+Get all categories
+GET /categories
+Response:
 
-POST /categories - Create a new category.
-
-Search & Inventory
-
-GET /search - Search for products by name or description.
-
-GET /inventory/low-stock - Retrieve products with low stock.
-
-Example Requests & Responses
-
-Create a Product
-
-Request:
-
+json
+Copy
+Edit
+[
+  {
+    "id": 1,
+    "name": "Electronics"
+  },
+  {
+    "id": 2,
+    "name": "Clothing"
+  }
+]
+Products
+Create a new product
 POST /products
-Content-Type: application/json
-{
-  "name": "Laptop",
-  "description": "High-end gaming laptop",
-  "price": 1200,
-  "category": "Electronics",
-  "stock": 10
-}
+Request body:
 
+json
+Copy
+Edit
+{
+  "name": "Smartphone",
+  "description": "Latest model",
+  "price": 799.99,
+  "categoryId": 1,
+  "stock": 50
+}
+Get all products
+GET /products
 Response:
 
-{
-  "_id": "60b8c3f7e1d4fa2b3c4e9a21",
-  "name": "Laptop",
-  "description": "High-end gaming laptop",
-  "price": 1200,
-  "category": "Electronics",
-  "stock": 10,
-  "createdAt": "2025-03-19T12:00:00.000Z",
-  "updatedAt": "2025-03-19T12:00:00.000Z"
-}
-
-Get All Products with Filtering
-
-Request:
-
-GET /products?page=1&limit=5&category=Electronics&sortBy=price&order=asc
-
+json
+Copy
+Edit
+[
+  {
+    "id": 1,
+    "name": "Smartphone",
+    "description": "Latest model",
+    "price": 799.99,
+    "categoryId": 1,
+    "stock": 50
+  }
+]
+Get a single product by ID
+GET /products/:id
 Response:
 
+json
+Copy
+Edit
 {
-  "total": 50,
-  "products": [
-    {
-      "_id": "60b8c3f7e1d4fa2b3c4e9a21",
-      "name": "Laptop",
-      "price": 1200,
-      "category": "Electronics",
-      "stock": 10
-    }
-  ]
+  "id": 1,
+  "name": "Smartphone",
+  "description": "Latest model",
+  "price": 799.99,
+  "categoryId": 1,
+  "stock": 50
 }
+Update a product
+PATCH /products/:id
+Request body:
 
-Assumptions & Limitations
+json
+Copy
+Edit
+{
+  "price": 749.99
+}
+Delete a product
+DELETE /products/:id
+No request body is required.
 
-The API does not support user authentication; it's an open API.
+Error Handling
+The API has basic error handling. If there’s an error (e.g., missing required fields, product not found), the API will respond with an appropriate HTTP status code and error message.
 
-Soft deletion is used for products, meaning they are not removed from the database but marked as deleted: true.
+Example error response:
 
-Pagination defaults to 10 items per page if not specified.
+json
+Copy
+Edit
+{
+  "message": "Product not found"
+}
+Testing
+You can test the API using tools like Postman or Insomnia.
 
-Only basic validation is implemented; further validation may be needed in production.
+
+Feel free to contribute to the project by forking the repository, creating a branch, and submitting a pull request.
+
+
+This README provides setup instructions, the technologies used, API endpoints, and error handling information. You can customize it further as needed!

@@ -1,16 +1,20 @@
-const mongoose = require('mongoose');
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/db');
+const Category = require('./category');
 
-const productSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    description: String,
-    price: { type: Number, required: true },
-    category: String,
-    stock: { type: Number, required: true, min: 0 },
-    variants: [String],
-    discount: { type: Number, default: 0 },
-    deleted: { type: Boolean, default: false }
+const Product = sequelize.define('Product', {
+    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    name: { type: DataTypes.STRING, allowNull: false },
+    description: DataTypes.STRING,
+    price: { type: DataTypes.FLOAT, allowNull: false },
+    categoryId: { type: DataTypes.INTEGER, references: { model: Category, key: 'id' } },
+    stock: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
+    variants: { type: DataTypes.JSON, defaultValue: [] },
+    discount: { type: DataTypes.FLOAT, defaultValue: 0 },
+    deleted: { type: DataTypes.BOOLEAN, defaultValue: false }
 });
 
-module.exports = mongoose.model('Product', productSchema);
+Category.hasMany(Product);
+Product.belongsTo(Category);
 
-
+module.exports = Product;

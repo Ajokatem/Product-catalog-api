@@ -1,4 +1,4 @@
-### Test Connection
+### Test API Connection
 GET http://localhost:5000/docs
 Accept: application/json
 
@@ -22,22 +22,22 @@ Content-Type: application/json
     "name": "Laptop",
     "description": "A high-performance laptop",
     "price": 1200,
-    "category": "Electronics",
+    "category_id": 1,
     "stock": 10,
     "variants": ["Silver", "Black"],
     "discount": 10
 }
 
-### Get All Products 
+### Get All Products (Pagination, Filtering & Sorting)
 GET http://localhost:5000/products?page=1&limit=5&sortBy=price&order=desc
 Accept: application/json
 
-### Get Product by ID 
-GET http://localhost:5000/products/15769474863
+### Get Product by ID
+GET http://localhost:5000/products/1
 Accept: application/json
 
-### Update a Product 
-PATCH http://localhost:5000/products/365688395
+### Update a Product
+PATCH http://localhost:5000/products/1
 Content-Type: application/json
 
 {
@@ -45,8 +45,8 @@ Content-Type: application/json
     "stock": 15
 }
 
-### Soft Delete a Product 
-DELETE http://localhost:5000/products/988453636
+### Soft Delete a Product
+DELETE http://localhost:5000/products/1
 Accept: application/json
 
 ### Get Low Stock Products
