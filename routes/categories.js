@@ -4,7 +4,7 @@ const Category = require('../models/category');
 
 const router = express.Router();
 
-router.post('/', [
+router.post('/categories', [
     body('name').notEmpty().withMessage('Category name is required')
 ], async (req, res) => {
     const errors = validationResult(req);
@@ -13,7 +13,7 @@ router.post('/', [
     res.status(201).json(category);
 });
 
-router.get('/', async (req, res) => {
+router.get('/categories', async (req, res) => {
     res.json(await Category.findAll());
 });
 

@@ -4,7 +4,7 @@ const Product = require('../models/product');
 
 const router = express.Router();
 
-router.post('/', [
+router.post('/proucts', [
     body('name').notEmpty().withMessage('Name is required'),
     body('price').isNumeric().withMessage('Price must be a number'),
     body('stock').isInt({ min: 0 }).withMessage('Stock must be a non-negative integer')
@@ -15,25 +15,25 @@ router.post('/', [
     res.status(201).json(product);
 });
 
-router.get('/', async (req, res) => {
+router.get('/products', async (req, res) => {
     const products = await Product.findAll({ where: { deleted: false } });
     res.json(products);
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/products:id', async (req, res) => {
     const product = await Product.findByPk(req.params.id);
     if (!product || product.deleted) return res.status(404).json({ message: 'Product not found' });
     res.json(product);
 });
 
-router.patch('/:id', async (req, res) => {
+router.patch('/products:id', async (req, res) => {
     const product = await Product.findByPk(req.params.id);
     if (!product) return res.status(404).json({ message: 'Product not found' });
     await product.update(req.body);
     res.json(product);
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/products:id', async (req, res) => {
     const product = await Product.findByPk(req.params.id);
     if (!product) return res.status(404).json({ message: 'Product not found' });
     await product.update({ deleted: true });
