@@ -1,6 +1,7 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const Product = require('../models/product');
+const Variant = require('../models/variant');
 
 const router = express.Router();
 
@@ -129,6 +130,50 @@ router.get('/inventory/low-stock', async (req, res) => {
 
         res.json(lowStockProducts);
     } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// Add a variant to a product
+router.post('/:id/variants', [
+    body('name').notEmpty().withMessage('Variant name is required'),
+    body('value').notEmpty().withMessage('Variant value is required'),
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
+    try {
+        const product = await Product.findByPk(req.params.id);
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+
+        const variant = await Variant.create({
+            name: req.body.name,
+            value: req.body.value,
+            productId: product.id,
+        });
+
+        res.status(201).json(variant);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// Get all variants for a product
+router.get('/:id/variants', async (req, res) => {
+    try {
+        const product = await Product.findByPk(req.params.id, {
+            include: Variant, // Include associated variants
+        });
+
+        if (!product) {
+            return res.status(404).json({ error: 'Product not found' });
+        }
+
+        res.json(product.Variants); // Return the associated variants
+    } catch (error) {
+        console.error(error); // Log the error for debugging
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
