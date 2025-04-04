@@ -1,21 +1,19 @@
 const express = require('express');
-const { connectDB, sequelize } = require('./config/db');
-const errorHandler = require('./middleware/errorHandler');
-require('dotenv').config();
+const categoryRoutes = require('./routes/categories');
+const productRoutes = require('./routes/products');
 
 const app = express();
+
+// Middleware
 app.use(express.json());
-connectDB();
 
-app.use('/products', require('./routes/products'));
-app.use('/categories', require('./routes/categories'));
+// Routes
+app.use('/categories', categoryRoutes); // Register categories route
+app.use('/products', productRoutes);    // Register products route
 
-app.get('/docs', (req, res) => {
-    res.json({ message: "Welcome to the Product Catalog API!" });
+// Root route
+app.get('/', (req, res) => {
+    res.send('Welcome to the Product Catalog API!');
 });
-
-app.use(errorHandler);
-
-sequelize.sync();
 
 module.exports = app;
